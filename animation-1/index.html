@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+  <script>
+let bubbles = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  for (let i = 0; i < 100; i++) {
+    let x = random(width);
+    let y = random(height);
+    let r = random(10, 50);
+    bubbles.push(new Bubble(x, y, r));
+  }
+}
+
+function draw() {
+  background(0);
+  for (let bubble of bubbles) {
+    bubble.move();
+    bubble.show();
+  }
+}
+
+class Bubble {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.brightness = 0;
+    this.xSpeed = random(-1, 1);
+    this.ySpeed = random(-1, 1);
+  }
+
+  move() {
+    this.x += this.xSpeed;
+    this.y += this.ySpeed;
+    // Kenarlara ulaştığında yön değiştirir
+    if (this.x < 0 || this.x > width) {
+      this.xSpeed *= -1;
+    }
+    if (this.y < 0 || this.y > height) {
+      this.ySpeed *= -1;
+    }
+  }
+
+  show() {
+    stroke(255);
+    strokeWeight(2);
+    fill(this.brightness, 125);
+    ellipse(this.x, this.y, this.r * 2);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+  </script>
+</body>
+</html>
